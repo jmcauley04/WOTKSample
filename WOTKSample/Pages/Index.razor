@@ -1,0 +1,50 @@
+﻿@page "/"
+@using WOTKSample.Models
+
+<PageTitle>Index</PageTitle>
+
+<h1>Units</h1>
+@if(_units is not null)
+{
+    foreach(var unit in _units)
+    {
+        <h3>@unit.Name</h3>
+        <div class="d-flex gap-4">
+            <span><strong>Health: </strong> @unit.Hp</span>
+            <span><strong>Mana: </strong> @unit.Mp</span>
+            <span><strong>Jobs: </strong> @unit.Jobs.Count</span>
+        </div>
+        <ul>
+            @foreach(var job in unit.Jobs)
+            {                
+                <li>
+                    <h5>@job.Name</h5>
+                    <ul>
+                        @foreach(var ability in job.Abilities)
+                        {
+                            <li>
+                                <h6><strong>@ability.Name</strong></h6>                                
+                                <div class="d-flex gap-4">
+                                    <span><strong>Cost: </strong> @ability.Cost</span>
+                                    <span><strong>Capacity: </strong> @ability.Capacity</span>
+                                    <span><strong>Effect: </strong> @ability.Effect</span>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    }
+}
+
+@code {
+    List<Unit>? _units;
+
+    protected override void OnInitialized()
+    {
+        _units = Databases.UnitsDb.Units;
+
+        base.OnInitialized();
+    }
+}
